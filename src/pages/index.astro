@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import HeroImage from '../components/HeroImage.astro';
+import GameGallery from '../components/GameGallery.astro';
+import Lightbox from '../components/Lightbox.astro';
+import ShippingInfo from '../components/ShippingInfo.astro';
+import gamesData from '../data/games.json';
+import type { Game } from '../data/types';
+
+const games: Game[] = gamesData;
+---
+
+<Layout title="Board Game Market - Quality Games For Sale">
+  <div class="container">
+    <Header />
+    <HeroImage games={games} />
+    <GameGallery games={games} />
+    <footer class="site-footer">
+      <ShippingInfo />
+    </footer>
+  </div>
+  <Lightbox />
+</Layout>
+
+<style>
+  .site-footer {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 2px solid var(--color-border);
+  }
+</style>

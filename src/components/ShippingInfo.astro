@@ -1,0 +1,67 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<div class={`shipping-info ${compact ? 'shipping-info--compact' : ''}`}>
+  <div class="shipping-info__section">
+    <h3>Shipping & Meetups</h3>
+    <p>
+      Can ship within the EU (usually €10-20, depending if your package needs wings).<br/>
+      In Prague? Let's meet up and save the cardboard some jet lag.
+    </p>
+  </div>
+  <div class="shipping-info__section">
+    <h3>Payment</h3>
+    <p>PayPal accepted — keeping transactions smoother than a well-sleeved deck.</p>
+  </div>
+  <div class="shipping-info__section">
+    <h3>Questions?</h3>
+    <p>Each game has links to BoardGameGeek Market and Facebook Marketplace listings for details.</p>
+  </div>
+</div>
+
+<style>
+  .shipping-info {
+    background: var(--color-surface);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+  }
+
+  .shipping-info--compact {
+    padding: var(--spacing-md);
+    font-size: 0.95rem;
+  }
+
+  .shipping-info__section {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .shipping-info__section:last-child {
+    margin-bottom: 0;
+  }
+
+  .shipping-info__section h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+  }
+
+  .shipping-info__section p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .shipping-info--compact h3 {
+    font-size: 1rem;
+  }
+
+  .shipping-info--compact p {
+    font-size: 0.9rem;
+  }
+</style>

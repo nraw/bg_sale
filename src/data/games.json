@@ -1,0 +1,143 @@
+[
+  {
+    "id": "a-war-of-whispers",
+    "name": "A war of whispers",
+    "priceEUR": 30,
+    "priceCZK": 750,
+    "images": [
+      "IMG20260210200855.jpg",
+      "IMG20260210203117.jpg"
+    ],
+    "condition": "Very good"
+  },
+  {
+    "id": "war-of-the-ring-the-card-game",
+    "name": "War of the ring the card game",
+    "priceEUR": 30,
+    "priceCZK": 750,
+    "images": [
+      "IMG20260210200940.jpg",
+      "IMG20260210203031.jpg",
+      "IMG20260210203037.jpg"
+    ],
+    "condition": "Very good"
+  },
+  {
+    "id": "escape-from-aliens-in-outer-space",
+    "name": "Escape from aliens in outer space",
+    "priceEUR": 10,
+    "priceCZK": 250,
+    "images": [
+      "IMG20260210201025.jpg",
+      "IMG20260210202933.jpg",
+      "IMG20260210202937.jpg",
+      "IMG20260210202941.jpg",
+      "IMG20260210202952.jpg"
+    ],
+    "condition": "Good"
+  },
+  {
+    "id": "skulk-hollow",
+    "name": "Skulk hollow",
+    "priceEUR": 30,
+    "priceCZK": 750,
+    "images": [
+      "IMG20260210201140.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "yomi-round-1",
+    "name": "Yomi - Round 1",
+    "priceEUR": 20,
+    "priceCZK": 500,
+    "images": [
+      "IMG20260210201246.jpg",
+      "IMG20260210202751.jpg"
+    ],
+    "condition": "Very good"
+  },
+  {
+    "id": "vast-the-mysterious-mannor-vast-the-haunted-hallows",
+    "name": "Vast the mysterious mannor + Vast the Haunted Hallows",
+    "priceEUR": 80,
+    "priceCZK": 2000,
+    "images": [
+      "IMG20260210201359.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "avalon-the-resistance",
+    "name": "Avalon the resistance",
+    "priceEUR": 15,
+    "priceCZK": 350,
+    "images": [
+      "IMG20260210201604.jpg",
+      "IMG20260210202718.jpg"
+    ],
+    "condition": "Very good"
+  },
+  {
+    "id": "lost-cities",
+    "name": "Lost cities",
+    "priceEUR": 10,
+    "priceCZK": 250,
+    "images": [
+      "IMG20260210201659.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "choson",
+    "name": "Choson",
+    "priceEUR": 5,
+    "priceCZK": 150,
+    "images": [
+      "IMG20260210201752.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "air-land-sea",
+    "name": "Air Land & sea",
+    "priceEUR": 10,
+    "priceCZK": 250,
+    "images": [
+      "IMG20260210201900.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "onirim",
+    "name": "Onirim",
+    "priceEUR": 10,
+    "priceCZK": 250,
+    "images": [
+      "IMG20260210202025.jpg",
+      "IMG20260210202823.jpg"
+    ],
+    "condition": "Very good"
+  },
+  {
+    "id": "turncoats",
+    "name": "Turncoats",
+    "priceEUR": 50,
+    "priceCZK": 1250,
+    "images": [
+      "IMG20260210202145.jpg"
+    ],
+    "condition": "Like new"
+  },
+  {
+    "id": "extras",
+    "name": "Extras",
+    "priceEUR": 4,
+    "priceCZK": 100,
+    "images": [
+      "IMG20260210202326.jpg"
+    ],
+    "isExtra": true,
+    "condition": ""
+  }
+]

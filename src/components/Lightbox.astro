@@ -1,0 +1,349 @@
+---
+import ShippingInfo from './ShippingInfo.astro';
+---
+
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button class="lightbox__close" aria-label="Close lightbox">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image">‹</button>
+  <button class="lightbox__nav lightbox__nav--next" aria-label="Next image">›</button>
+  <div class="lightbox__content">
+    <img id="lightbox-image" src="" alt="" class="lightbox__image" />
+    <div class="lightbox__info">
+      <h3 id="lightbox-title" class="lightbox__title"></h3>
+      <div id="lightbox-price" class="lightbox__price"></div>
+      <div id="lightbox-condition" class="lightbox__condition"></div>
+      <div id="lightbox-counter" class="lightbox__counter"></div>
+      <div class="lightbox__links">
+        <a id="lightbox-bgg-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
+          View on BGG Market
+        </a>
+        <a id="lightbox-fb-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
+          View on Facebook
+        </a>
+      </div>
+      <div class="lightbox__shipping">
+        <ShippingInfo compact={true} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  .lightbox__content {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .lightbox__image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .lightbox__info {
+    text-align: center;
+    color: white;
+  }
+
+  .lightbox__title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .lightbox__price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #3b82f6;
+  }
+
+  .lightbox__condition {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .lightbox__counter {
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  .lightbox__links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lightbox__link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(37, 99, 235, 0.2);
+    color: #3b82f6;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .lightbox__link:hover {
+    background: rgba(37, 99, 235, 0.3);
+  }
+
+  .lightbox__shipping {
+    margin-top: 1.5rem;
+    max-width: 600px;
+  }
+
+  .lightbox__close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 50px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 40px;
+    transition: opacity 0.2s;
+  }
+
+  .lightbox__close:hover {
+    opacity: 0.7;
+  }
+
+  .lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 60px;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+    padding: 20px;
+    width: 60px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 1001;
+  }
+
+  .lightbox__nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox__nav--prev {
+    left: 20px;
+  }
+
+  .lightbox__nav--next {
+    right: 20px;
+  }
+
+  .lightbox__nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    .lightbox__close {
+      top: 10px;
+      right: 10px;
+      font-size: 40px;
+    }
+
+    .lightbox__nav {
+      font-size: 40px;
+      width: 50px;
+      height: 60px;
+      padding: 10px;
+    }
+
+    .lightbox__nav--prev {
+      left: 10px;
+    }
+
+    .lightbox__nav--next {
+      right: 10px;
+    }
+  }
+</style>
+
+<script>
+  let currentImages: string[] = [];
+  let currentIndex = 0;
+  let currentTitle = '';
+  let currentPriceEUR = 0;
+  let currentPriceCZK = 0;
+  let currentCondition = '';
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxPrice = document.getElementById('lightbox-price');
+  const lightboxCondition = document.getElementById('lightbox-condition');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const closeBtn = document.querySelector('.lightbox__close');
+  const prevBtn = document.querySelector('.lightbox__nav--prev') as HTMLButtonElement;
+  const nextBtn = document.querySelector('.lightbox__nav--next') as HTMLButtonElement;
+
+  function openLightbox(images: string[], index: number, title: string, priceEUR?: number, priceCZK?: number, condition?: string) {
+    currentImages = images;
+    currentIndex = index;
+    currentTitle = title;
+    currentPriceEUR = priceEUR || 0;
+    currentPriceCZK = priceCZK || 0;
+    currentCondition = condition || '';
+    updateLightbox();
+    lightbox?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    if (lightboxImage && currentImages[currentIndex]) {
+      lightboxImage.src = `/images/${currentImages[currentIndex]}`;
+      lightboxImage.alt = `${currentTitle} - Image ${currentIndex + 1}`;
+    }
+    if (lightboxTitle) {
+      lightboxTitle.textContent = currentTitle;
+    }
+    if (lightboxPrice) {
+      if (currentPriceEUR > 0) {
+        lightboxPrice.textContent = `€${currentPriceEUR} / ${currentPriceCZK} Kč`;
+      } else {
+        lightboxPrice.textContent = `${currentPriceCZK} Kč`;
+      }
+    }
+    if (lightboxCondition && currentCondition) {
+      lightboxCondition.textContent = `Condition: ${currentCondition}`;
+    }
+    if (lightboxCounter && currentImages.length > 1) {
+      lightboxCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+    }
+
+    // Update nav buttons
+    if (prevBtn) {
+      prevBtn.disabled = currentIndex === 0;
+      prevBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
+    }
+    if (nextBtn) {
+      nextBtn.disabled = currentIndex === currentImages.length - 1;
+      nextBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
+    }
+  }
+
+  function showPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateLightbox();
+    }
+  }
+
+  function showNext() {
+    if (currentIndex < currentImages.length - 1) {
+      currentIndex++;
+      updateLightbox();
+    }
+  }
+
+  // Event listeners
+  closeBtn?.addEventListener('click', closeLightbox);
+  prevBtn?.addEventListener('click', showPrev);
+  nextBtn?.addEventListener('click', showNext);
+
+  // Close on background click
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox?.classList.contains('active')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  // Make openLightbox available globally
+  (window as any).openLightbox = openLightbox;
+
+  // Add click handlers to all game cards
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.game-card').forEach(card => {
+      const cardElement = card as HTMLElement;
+      const title = card.querySelector('.game-card__title')?.textContent || '';
+      const slides = card.querySelectorAll('.image-carousel__slide img');
+      const images = Array.from(slides).map(img => {
+        const src = (img as HTMLImageElement).src;
+        return src.split('/images/')[1];
+      });
+
+      // Get price and condition from badge
+      const priceBadge = card.querySelector('.image-carousel__price-badge');
+      let priceEUR = 0;
+      let priceCZK = 0;
+      let condition = '';
+
+      if (priceBadge) {
+        const priceText = priceBadge.textContent || '';
+        const eurMatch = priceText.match(/€(\d+)/);
+        const czkMatch = priceText.match(/(\d+)\s*Kč/);
+        const conditionMatch = priceText.match(/(Like new|Very good|Good)/i);
+
+        if (eurMatch) priceEUR = parseInt(eurMatch[1]);
+        if (czkMatch) priceCZK = parseInt(czkMatch[1]);
+        if (conditionMatch) condition = conditionMatch[1];
+      }
+
+      cardElement.style.cursor = 'pointer';
+      cardElement.addEventListener('click', () => {
+        openLightbox(images, 0, title, priceEUR, priceCZK, condition);
+      });
+    });
+  });
+</script>

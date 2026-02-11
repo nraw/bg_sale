@@ -1,0 +1,77 @@
+---
+interface Props {
+  images: string[];
+  alt: string;
+  priceEUR?: number;
+  priceCZK: number;
+  condition: string;
+}
+
+const { images, alt, priceEUR, priceCZK, condition } = Astro.props;
+const hasMultipleImages = images.length > 1;
+---
+
+<div class="image-carousel">
+  <div class="image-carousel__price-badge">
+    {priceEUR && priceEUR > 0 ? (
+      <>
+        <div>€{priceEUR}</div>
+        <div class="image-carousel__price-badge-secondary">{priceCZK} Kč</div>
+      </>
+    ) : (
+      <div>{priceCZK} Kč</div>
+    )}
+    {condition && (
+      <div class="image-carousel__condition-badge">{condition}</div>
+    )}
+  </div>
+  <div class="image-carousel__track" id={`carousel-${alt.replace(/\s+/g, '-')}`}>
+    {images.map((image, index) => (
+      <div class="image-carousel__slide">
+        <img
+          src={`/images/${image}`}
+          alt={`${alt} - Image ${index + 1}`}
+          class="image-carousel__image"
+          loading="lazy"
+        />
+      </div>
+    ))}
+  </div>
+  {hasMultipleImages && (
+    <div class="image-carousel__indicators">
+      {images.map((_, index) => (
+        <span
+          class={`image-carousel__dot ${index === 0 ? 'image-carousel__dot--active' : ''}`}
+          data-index={index}
+        />
+      ))}
+    </div>
+  )}
+</div>
+
+{hasMultipleImages && (
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const carousels = document.querySelectorAll('.image-carousel__track');
+
+      carousels.forEach((carousel) => {
+        const indicators = carousel.parentElement?.querySelectorAll('.image-carousel__dot');
+        if (!indicators) return;
+
+        let currentIndex = 0;
+
+        carousel.addEventListener('scroll', () => {
+          const scrollLeft = carousel.scrollLeft;
+          const slideWidth = carousel.clientWidth;
+          const newIndex = Math.round(scrollLeft / slideWidth);
+
+          if (newIndex !== currentIndex) {
+            indicators[currentIndex]?.classList.remove('image-carousel__dot--active');
+            indicators[newIndex]?.classList.add('image-carousel__dot--active');
+            currentIndex = newIndex;
+          }
+        });
+      });
+    });
+  </script>
+)}

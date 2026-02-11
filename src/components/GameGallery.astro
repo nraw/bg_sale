@@ -1,0 +1,35 @@
+---
+import type { Game } from '../data/types';
+import GameCard from './GameCard.astro';
+
+interface Props {
+  games: Game[];
+}
+
+const { games } = Astro.props;
+
+// Separate regular games from extras
+const regularGames = games.filter(game => !game.isExtra);
+const extras = games.filter(game => game.isExtra);
+---
+
+<div class="game-gallery">
+  {regularGames.map(game => (
+    <GameCard game={game} />
+  ))}
+</div>
+
+{extras.length > 0 && (
+  <section class="extras-section">
+    <h2>Extras</h2>
+    <p class="extras-description">
+      <span class="extras-price">€4 / 100 Kč each</span><br/>
+      <span class="extras-deal">Or ask for one for free with any purchase if it fits in the package.</span>
+    </p>
+    <div class="game-gallery">
+      {extras.map(game => (
+        <GameCard game={game} />
+      ))}
+    </div>
+  </section>
+)}

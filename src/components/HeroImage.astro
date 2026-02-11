@@ -1,0 +1,224 @@
+---
+import type { Game } from '../data/types';
+
+interface Props {
+  games: Game[];
+}
+
+const { games } = Astro.props;
+
+// Filter out extras for the hero image mapping
+const regularGames = games.filter(g => !g.isExtra);
+
+// Define widths for each game (vertical strips on shelf)
+// Vast = double (2 games), last game fills remaining space
+const gameWidthsRaw = [
+  8.20,   // A war of whispers
+  8.14,   // War of the ring
+  7.14,   // Escape from aliens
+  8.14,   // Skulk hollow
+  7.14,   // Yomi
+  17.28,  // Vast (DOUBLE - 2 games)
+  6.14,   // Avalon
+  5.14,   // Lost cities
+  4.14,   // Choson
+  4.54,   // Air Land & sea
+  6.14,   // Onirim
+];
+
+// Define top positions for price badges (aligned with actual game box tops)
+const badgeTops = [
+  10,  // A war of whispers - tallest
+  10,  // War of the ring - tall
+  14,  // Escape from aliens - tall
+  15,  // Skulk hollow - tall
+  27,  // Yomi - short box
+  29,  // Vast - medium tall
+  33,  // Avalon - shorter
+  33,  // Lost cities - short
+  44,  // Choson - very short
+  44,  // Air Land & sea - very short
+  43,  // Onirim - medium
+  50,  // Turncoats - medium (with bag)
+];
+
+// Calculate remaining width for the last game (Turncoats)
+const usedWidth = gameWidthsRaw.reduce((sum, w) => sum + w, 0);
+const gameWidths = [...gameWidthsRaw, 100 - usedWidth]; // Turncoats fills the rest
+
+// Calculate positions automatically from widths
+const gamePositions = gameWidths.map((width, index) => {
+  const left = gameWidths.slice(0, index).reduce((sum, w) => sum + w, 0);
+  return {
+    game: index,
+    top: 0,
+    left: left,
+    width: width,
+    height: 100,
+    badgeTop: badgeTops[index]
+  };
+});
+---
+
+<div class="hero-container">
+  <div class="hero-image-interactive">
+    <img
+      src="/images/IMG20260210200229.jpg"
+      alt="All board games collection"
+      loading="eager"
+      class="hero-image-bg"
+    />
+    <div class="hero-overlay"></div>
+    {gamePositions.map((pos) => {
+      const game = regularGames[pos.game];
+      if (!game) return null;
+
+      return (
+        <button
+          class="hero-hotspot"
+          style={`top: ${pos.top}%; left: ${pos.left}%; width: ${pos.width}%; height: ${pos.height}%;`}
+          data-game-id={game.id}
+          data-game-name={game.name}
+          data-game-images={JSON.stringify(game.images)}
+          data-game-price-eur={game.priceEUR}
+          data-game-price-czk={game.priceCZK}
+          data-game-condition={game.condition}
+          aria-label={`View ${game.name}`}
+        >
+          <span class="hero-price-badge" style={`top: ${pos.badgeTop}%;`}>
+            {game.priceEUR > 0 ? (
+              <>
+                <span class="hero-price-main">€{game.priceEUR}</span>
+                <span class="hero-price-secondary">{game.priceCZK} Kč</span>
+              </>
+            ) : (
+              <span class="hero-price-main">{game.priceCZK} Kč</span>
+            )}
+          </span>
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .hero-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto var(--spacing-xl);
+  }
+
+  .hero-image-interactive {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 16px var(--color-shadow);
+  }
+
+  .hero-image-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+
+  .hero-image-interactive:hover .hero-overlay {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .hero-hotspot {
+    position: absolute;
+    background: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    z-index: 10;
+  }
+
+  .hero-hotspot:hover {
+    background: rgba(37, 99, 235, 0.3);
+    border-color: rgba(37, 99, 235, 0.8);
+    z-index: 20;
+  }
+
+  .hero-image-interactive:hover .hero-hotspot:not(:hover) {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-price-badge {
+    position: absolute;
+    /* top is set inline per game */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(37, 99, 235, 0.95);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 1;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-price-main {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .hero-price-secondary {
+    font-size: 0.7rem;
+    opacity: 0.9;
+    line-height: 1;
+  }
+
+  .hero-hotspot:hover .hero-price-badge {
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .hero-price-badge {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hotspots = document.querySelectorAll('.hero-hotspot');
+
+    hotspots.forEach(hotspot => {
+      hotspot.addEventListener('click', () => {
+        const gameName = hotspot.getAttribute('data-game-name') || '';
+        const imagesStr = hotspot.getAttribute('data-game-images') || '[]';
+        const images = JSON.parse(imagesStr);
+        const priceEUR = parseInt(hotspot.getAttribute('data-game-price-eur') || '0');
+        const priceCZK = parseInt(hotspot.getAttribute('data-game-price-czk') || '0');
+        const condition = hotspot.getAttribute('data-game-condition') || '';
+
+        // Use the global openLightbox function
+        if (typeof (window as any).openLightbox === 'function') {
+          (window as any).openLightbox(images, 0, gameName, priceEUR, priceCZK, condition);
+        }
+      });
+    });
+  });
+</script>

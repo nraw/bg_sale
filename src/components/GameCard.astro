@@ -1,0 +1,23 @@
+---
+import type { Game } from '../data/types';
+import ImageCarousel from './ImageCarousel.astro';
+
+interface Props {
+  game: Game;
+}
+
+const { game } = Astro.props;
+---
+
+<article class="game-card">
+  <ImageCarousel
+    images={game.images}
+    alt={game.name}
+    priceEUR={game.priceEUR}
+    priceCZK={game.priceCZK}
+    condition={game.condition}
+  />
+  <div class="game-card__content">
+    <h3 class="game-card__title">{game.name}</h3>
+  </div>
+</article>
