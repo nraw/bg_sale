@@ -243,7 +243,8 @@ import ShippingInfo from './ShippingInfo.astro';
 
   function updateLightbox() {
     if (lightboxImage && currentImages[currentIndex]) {
-      lightboxImage.src = `/images/${currentImages[currentIndex]}`;
+      const baseUrl = document.querySelector('base')?.href || window.location.origin + '/bg_sale/';
+      lightboxImage.src = `${baseUrl}images/${currentImages[currentIndex]}`;
       lightboxImage.alt = `${currentTitle} - Image ${currentIndex + 1}`;
     }
     if (lightboxTitle) {
