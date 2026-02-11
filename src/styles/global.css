@@ -33,7 +33,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
-  padding: var(--spacing-sm);
+  padding: 0;
 }
 
 /* Typography */
@@ -64,7 +64,13 @@ h3 {
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: var(--spacing-lg);
+  }
 }
 
 /* Header */
@@ -117,9 +123,21 @@ h3 {
 /* Game Gallery Grid */
 .game-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
+}
+
+@media (min-width: 768px) {
+  .game-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .game-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* Game Card */
@@ -295,38 +313,13 @@ h3 {
 
 /* Responsive Breakpoints */
 @media (min-width: 640px) {
-  body {
-    padding: var(--spacing-md);
-  }
-
   h1 {
     font-size: 3rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding: var(--spacing-lg);
-  }
-
-  .game-gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-xl);
   }
 }
 
 @media (min-width: 1024px) {
   h1 {
     font-size: 4rem;
-  }
-
-  .game-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1280px) {
-  .game-gallery {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
