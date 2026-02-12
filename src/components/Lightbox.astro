@@ -12,7 +12,6 @@ import ShippingInfo from './ShippingInfo.astro';
       <h3 id="lightbox-title" class="lightbox__title"></h3>
       <div id="lightbox-price" class="lightbox__price"></div>
       <div id="lightbox-condition" class="lightbox__condition"></div>
-      <div id="lightbox-counter" class="lightbox__counter"></div>
       <div class="lightbox__links">
         <a id="lightbox-bgg-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
           View on BGG Market
@@ -53,6 +52,8 @@ import ShippingInfo from './ShippingInfo.astro';
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .lightbox__image {
@@ -213,32 +214,43 @@ import ShippingInfo from './ShippingInfo.astro';
   let currentPriceEUR = 0;
   let currentPriceCZK = 0;
   let currentCondition = '';
+  let currentGameId = '';
 
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
   const lightboxTitle = document.getElementById('lightbox-title');
   const lightboxPrice = document.getElementById('lightbox-price');
   const lightboxCondition = document.getElementById('lightbox-condition');
-  const lightboxCounter = document.getElementById('lightbox-counter');
   const closeBtn = document.querySelector('.lightbox__close');
   const prevBtn = document.querySelector('.lightbox__nav--prev') as HTMLButtonElement;
   const nextBtn = document.querySelector('.lightbox__nav--next') as HTMLButtonElement;
 
-  function openLightbox(images: string[], index: number, title: string, priceEUR?: number, priceCZK?: number, condition?: string) {
+  function openLightbox(images: string[], index: number, title: string, priceEUR?: number, priceCZK?: number, condition?: string, gameId?: string) {
     currentImages = images;
     currentIndex = index;
     currentTitle = title;
     currentPriceEUR = priceEUR || 0;
     currentPriceCZK = priceCZK || 0;
     currentCondition = condition || '';
+    currentGameId = gameId || '';
     updateLightbox();
     lightbox?.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // Update URL hash
+    if (currentGameId) {
+      window.history.pushState(null, '', `#${currentGameId}`);
+    }
   }
 
   function closeLightbox() {
     lightbox?.classList.remove('active');
     document.body.style.overflow = '';
+
+    // Remove URL hash
+    if (window.location.hash) {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    }
   }
 
   function updateLightbox() {
@@ -259,9 +271,6 @@ import ShippingInfo from './ShippingInfo.astro';
     }
     if (lightboxCondition && currentCondition) {
       lightboxCondition.textContent = `Condition: ${currentCondition}`;
-    }
-    if (lightboxCounter && currentImages.length > 1) {
-      lightboxCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
     }
 
     // Update nav buttons
@@ -315,6 +324,9 @@ import ShippingInfo from './ShippingInfo.astro';
 
   // Add click handlers to all game cards
   document.addEventListener('DOMContentLoaded', () => {
+    // Store game data for lookup
+    const gamesData = new Map();
+
     document.querySelectorAll('.game-card').forEach(card => {
       const cardElement = card as HTMLElement;
       const title = card.querySelector('.game-card__title')?.textContent || '';
@@ -341,10 +353,37 @@ import ShippingInfo from './ShippingInfo.astro';
         if (conditionMatch) condition = conditionMatch[1];
       }
 
+      // Generate game ID from title (same format as in games.json)
+      const gameId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+      // Store game data
+      gamesData.set(gameId, { images, title, priceEUR, priceCZK, condition });
+
       cardElement.style.cursor = 'pointer';
       cardElement.addEventListener('click', () => {
-        openLightbox(images, 0, title, priceEUR, priceCZK, condition);
+        openLightbox(images, 0, title, priceEUR, priceCZK, condition, gameId);
       });
+    });
+
+    // Check URL hash on page load and open lightbox if game ID is present
+    const openGameFromHash = () => {
+      const hash = window.location.hash.slice(1); // Remove the '#'
+      if (hash && gamesData.has(hash)) {
+        const game = gamesData.get(hash);
+        openLightbox(game.images, 0, game.title, game.priceEUR, game.priceCZK, game.condition, hash);
+      }
+    };
+
+    // Open game if hash is in URL
+    openGameFromHash();
+
+    // Handle browser back/forward buttons
+    window.addEventListener('hashchange', () => {
+      if (!window.location.hash && lightbox?.classList.contains('active')) {
+        closeLightbox();
+      } else {
+        openGameFromHash();
+      }
     });
   });
 </script>

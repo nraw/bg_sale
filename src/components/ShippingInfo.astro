@@ -11,16 +11,16 @@ const { compact = false } = Astro.props;
     <h3>Shipping & Meetups</h3>
     <p>
       Can ship within the EU (usually €10-20, depending if your package needs wings).<br/>
-      In Prague? Let's meet up and save the cardboard some jet lag.
+      In Prague? Let's meet up and save the game some jet lag.
     </p>
   </div>
   <div class="shipping-info__section">
     <h3>Payment</h3>
-    <p>PayPal accepted — keeping transactions smoother than a well-sleeved deck.</p>
+		<p>PayPal, Bank Transaction or QR if in person - keeping transactions smoother than a well-sleeved deck.</p>
   </div>
   <div class="shipping-info__section">
     <h3>Questions?</h3>
-    <p>Each game has links to BoardGameGeek Market and Facebook Marketplace listings for details.</p>
+    <p>Send me a <a href="https://boardgamegeek.com/geekmail/compose?touser=nraw" target="_blank" rel="noopener noreferrer">geekmail</a> or contact us through the Facebook Marketplace</p>
   </div>
 </div>
 
@@ -55,6 +55,15 @@ const { compact = false } = Astro.props;
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
+  }
+
+  .shipping-info__section a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .shipping-info__section a:hover {
+    text-decoration: underline;
   }
 
   .shipping-info--compact h3 {

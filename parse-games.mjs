@@ -65,6 +65,15 @@ while (i < lines.length) {
     continue;
   }
 
+  // Check if it's marked as SOLD
+  if (line === 'SOLD') {
+    if (currentGame) {
+      currentGame.sold = true;
+    }
+    i++;
+    continue;
+  }
+
   // Check if it's a price in EUR
   if (line.endsWith('EUR')) {
     if (currentGame) {
@@ -93,7 +102,8 @@ while (i < lines.length) {
       name: line,
       priceEUR: 0,
       priceCZK: 0,
-      images: []
+      images: [],
+      sold: false
     };
   }
 
@@ -116,7 +126,7 @@ games.forEach(game => {
   if (game.isExtra) {
     game.condition = ''; // No condition for extras
   } else if (game.name === 'Escape from aliens in outer space') {
-    game.condition = 'Good';
+    game.condition = 'Acceptable';
   } else if (game.images.length > 1) {
     game.condition = 'Very good';
   } else {

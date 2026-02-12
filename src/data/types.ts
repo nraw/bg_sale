@@ -6,4 +6,5 @@ export interface Game {
   images: string[];
   condition: 'Like new' | 'Very good' | 'Good';
   isExtra?: boolean;
+  sold?: boolean;
 }

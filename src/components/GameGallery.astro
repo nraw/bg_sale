@@ -8,8 +8,8 @@ interface Props {
 
 const { games } = Astro.props;
 
-// Separate regular games from extras
-const regularGames = games.filter(game => !game.isExtra);
+// Separate regular games from extras and filter out sold games
+const regularGames = games.filter(game => !game.isExtra && !game.sold);
 const extras = games.filter(game => game.isExtra);
 ---
 

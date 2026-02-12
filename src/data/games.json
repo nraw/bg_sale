@@ -8,6 +8,7 @@
       "IMG20260210200855.jpg",
       "IMG20260210203117.jpg"
     ],
+    "sold": false,
     "condition": "Very good"
   },
   {
@@ -20,6 +21,7 @@
       "IMG20260210203031.jpg",
       "IMG20260210203037.jpg"
     ],
+    "sold": false,
     "condition": "Very good"
   },
   {
@@ -34,6 +36,7 @@
       "IMG20260210202941.jpg",
       "IMG20260210202952.jpg"
     ],
+    "sold": false,
     "condition": "Good"
   },
   {
@@ -44,6 +47,7 @@
     "images": [
       "IMG20260210201140.jpg"
     ],
+    "sold": false,
     "condition": "Like new"
   },
   {
@@ -55,6 +59,7 @@
       "IMG20260210201246.jpg",
       "IMG20260210202751.jpg"
     ],
+    "sold": false,
     "condition": "Very good"
   },
   {
@@ -65,6 +70,7 @@
     "images": [
       "IMG20260210201359.jpg"
     ],
+    "sold": true,
     "condition": "Like new"
   },
   {
@@ -76,6 +82,7 @@
       "IMG20260210201604.jpg",
       "IMG20260210202718.jpg"
     ],
+    "sold": false,
     "condition": "Very good"
   },
   {
@@ -86,6 +93,7 @@
     "images": [
       "IMG20260210201659.jpg"
     ],
+    "sold": false,
     "condition": "Like new"
   },
   {
@@ -96,6 +104,7 @@
     "images": [
       "IMG20260210201752.jpg"
     ],
+    "sold": false,
     "condition": "Like new"
   },
   {
@@ -106,6 +115,7 @@
     "images": [
       "IMG20260210201900.jpg"
     ],
+    "sold": false,
     "condition": "Like new"
   },
   {
@@ -117,6 +127,7 @@
       "IMG20260210202025.jpg",
       "IMG20260210202823.jpg"
     ],
+    "sold": false,
     "condition": "Very good"
   },
   {
@@ -127,6 +138,7 @@
     "images": [
       "IMG20260210202145.jpg"
     ],
+    "sold": false,
     "condition": "Like new"
   },
   {

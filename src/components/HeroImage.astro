@@ -75,7 +75,7 @@ const gamePositions = gameWidths.map((width, index) => {
 
       return (
         <button
-          class="hero-hotspot"
+          class={`hero-hotspot ${game.sold ? 'hero-hotspot--sold' : ''}`}
           style={`top: ${pos.top}%; left: ${pos.left}%; width: ${pos.width}%; height: ${pos.height}%;`}
           data-game-id={game.id}
           data-game-name={game.name}
@@ -83,10 +83,14 @@ const gamePositions = gameWidths.map((width, index) => {
           data-game-price-eur={game.priceEUR}
           data-game-price-czk={game.priceCZK}
           data-game-condition={game.condition}
-          aria-label={`View ${game.name}`}
+          data-sold={game.sold || false}
+          aria-label={game.sold ? `${game.name} (Sold)` : `View ${game.name}`}
+          disabled={game.sold}
         >
-          <span class="hero-price-badge" style={`top: ${pos.badgeTop}%;`}>
-            {game.priceEUR > 0 ? (
+          <span class={`hero-price-badge ${game.sold ? 'hero-price-badge--sold' : ''}`} style={`top: ${pos.badgeTop}%;`}>
+            {game.sold ? (
+              <span class="hero-sold-x">✕</span>
+            ) : game.priceEUR > 0 ? (
               <>
                 <span class="hero-price-main">€{game.priceEUR}</span>
                 <span class="hero-price-secondary">{game.priceCZK} Kč</span>
@@ -153,8 +157,22 @@ const gamePositions = gameWidths.map((width, index) => {
     z-index: 20;
   }
 
+  .hero-hotspot--sold {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .hero-hotspot--sold:hover {
+    background: transparent;
+    border-color: transparent;
+  }
+
   .hero-image-interactive:hover .hero-hotspot:not(:hover) {
     background: rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-image-interactive:hover .hero-hotspot--sold {
+    background: rgba(0, 0, 0, 0.3);
   }
 
   .hero-price-badge {
@@ -190,6 +208,16 @@ const gamePositions = gameWidths.map((width, index) => {
     line-height: 1;
   }
 
+  .hero-price-badge--sold {
+    background: rgba(220, 38, 38, 0.95);
+  }
+
+  .hero-sold-x {
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
   .hero-hotspot:hover .hero-price-badge {
     transform: translateX(-50%) scale(1.1);
   }
@@ -207,6 +235,10 @@ const gamePositions = gameWidths.map((width, index) => {
 
     hotspots.forEach(hotspot => {
       hotspot.addEventListener('click', () => {
+        // Don't open lightbox for sold games
+        const isSold = hotspot.getAttribute('data-sold') === 'true';
+        if (isSold) return;
+
         const gameName = hotspot.getAttribute('data-game-name') || '';
         const imagesStr = hotspot.getAttribute('data-game-images') || '[]';
         const images = JSON.parse(imagesStr);
