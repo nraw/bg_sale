@@ -85,7 +85,6 @@ const gamePositions = gameWidths.map((width, index) => {
           data-game-condition={game.condition}
           data-sold={game.sold || false}
           aria-label={game.sold ? `${game.name} (Sold)` : `View ${game.name}`}
-          disabled={game.sold}
         >
           <span class={`hero-price-badge ${game.sold ? 'hero-price-badge--sold' : ''}`} style={`top: ${pos.badgeTop}%;`}>
             {game.sold ? (
@@ -159,7 +158,7 @@ const gamePositions = gameWidths.map((width, index) => {
 
   .hero-hotspot--sold {
     cursor: not-allowed;
-    pointer-events: none;
+    pointer-events: auto;
   }
 
   .hero-hotspot--sold:hover {
@@ -237,7 +236,17 @@ const gamePositions = gameWidths.map((width, index) => {
       hotspot.addEventListener('click', () => {
         // Don't open lightbox for sold games
         const isSold = hotspot.getAttribute('data-sold') === 'true';
-        if (isSold) return;
+        console.log('Hotspot clicked, isSold:', isSold);
+        if (isSold) {
+          // Show toast notification for sold games
+          console.log('showToast function exists:', typeof (window as any).showToast === 'function');
+          if (typeof (window as any).showToast === 'function') {
+            (window as any).showToast('Sold out (╥﹏╥)');
+          } else {
+            console.error('showToast function not found!');
+          }
+          return;
+        }
 
         const gameName = hotspot.getAttribute('data-game-name') || '';
         const imagesStr = hotspot.getAttribute('data-game-images') || '[]';

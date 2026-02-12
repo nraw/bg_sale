@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import HeroImage from '../components/HeroImage.astro';
 import GameGallery from '../components/GameGallery.astro';
 import Lightbox from '../components/Lightbox.astro';
+import Toast from '../components/Toast.astro';
 import ShippingInfo from '../components/ShippingInfo.astro';
 import gamesData from '../data/games.json';
 import type { Game } from '../data/types';
@@ -29,6 +30,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', {
     </footer>
   </div>
   <Lightbox />
+  <Toast />
 </Layout>
 
 <style>

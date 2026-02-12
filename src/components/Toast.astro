@@ -1,0 +1,73 @@
+---
+---
+
+<div id="toast" class="toast" role="alert" aria-live="polite">
+  <span class="toast__content"></span>
+</div>
+
+<style>
+  .toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    z-index: 2000;
+    transition: bottom 0.3s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 90vw;
+    text-align: center;
+  }
+
+  .toast.show {
+    bottom: 2rem;
+  }
+
+  .toast__content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .toast {
+      font-size: 1rem;
+      padding: 0.875rem 1.25rem;
+    }
+
+    .toast.show {
+      bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  function showToast(message: string, duration = 2000) {
+    console.log('showToast called with message:', message);
+    const toast = document.getElementById('toast');
+    const content = toast?.querySelector('.toast__content');
+
+    if (!toast || !content) {
+      console.error('Toast element not found!');
+      return;
+    }
+
+    content.textContent = message;
+    toast.classList.add('show');
+    console.log('Toast shown');
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      console.log('Toast hidden');
+    }, duration);
+  }
+
+  // Make showToast available globally
+  (window as any).showToast = showToast;
+  console.log('Toast script loaded, showToast is now available');
+</script>
