@@ -5,13 +5,16 @@ interface Props {
   priceEUR?: number;
   priceCZK: number;
   condition: string;
+  bggUrl?: string;
+  geekmarketUrl?: string;
+  facebookUrl?: string;
 }
 
-const { images, alt, priceEUR, priceCZK, condition } = Astro.props;
+const { images, alt, priceEUR, priceCZK, condition, bggUrl, geekmarketUrl, facebookUrl } = Astro.props;
 const hasMultipleImages = images.length > 1;
 ---
 
-<div class="image-carousel">
+<div class="image-carousel" data-bgg-url={bggUrl} data-geekmarket-url={geekmarketUrl} data-facebook-url={facebookUrl}>
   <div class="image-carousel__price-badge">
     {priceEUR && priceEUR > 0 ? (
       <>

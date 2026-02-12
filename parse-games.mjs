@@ -74,6 +74,33 @@ while (i < lines.length) {
     continue;
   }
 
+  // Check if it's a BGG URL
+  if (line.startsWith('BGG:') || line.startsWith('https://boardgamegeek.com')) {
+    if (currentGame) {
+      currentGame.bggUrl = line.replace('BGG:', '').trim();
+    }
+    i++;
+    continue;
+  }
+
+  // Check if it's a GeekMarket URL
+  if (line.startsWith('GM:') || line.startsWith('GeekMarket:') || line.includes('boardgamegeek.com/market/')) {
+    if (currentGame) {
+      currentGame.geekmarketUrl = line.replace(/^(GM:|GeekMarket:)\s*/, '').trim();
+    }
+    i++;
+    continue;
+  }
+
+  // Check if it's a Facebook Marketplace URL
+  if (line.startsWith('FB:') || line.startsWith('Facebook:') || line.includes('facebook.com/marketplace/')) {
+    if (currentGame) {
+      currentGame.facebookUrl = line.replace(/^(FB:|Facebook:)\s*/, '').trim();
+    }
+    i++;
+    continue;
+  }
+
   // Check if it's a price in EUR
   if (line.endsWith('EUR')) {
     if (currentGame) {

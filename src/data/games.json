@@ -9,6 +9,8 @@
       "IMG20260210203117.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/253499/war-whispers",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958644",
     "condition": "Very good"
   },
   {
@@ -22,13 +24,15 @@
       "IMG20260210203037.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/115746/war-ring-card-game",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958648",
     "condition": "Very good"
   },
   {
     "id": "escape-from-aliens-in-outer-space",
     "name": "Escape from aliens in outer space",
-    "priceEUR": 10,
-    "priceCZK": 250,
+    "priceEUR": 20,
+    "priceCZK": 500,
     "images": [
       "IMG20260210201025.jpg",
       "IMG20260210202933.jpg",
@@ -37,7 +41,9 @@
       "IMG20260210202952.jpg"
     ],
     "sold": false,
-    "condition": "Good"
+    "bggUrl": "https://boardgamegeek.com/boardgame/82168/escape-aliens-outer-space",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958650",
+    "condition": "Acceptable"
   },
   {
     "id": "skulk-hollow",
@@ -48,6 +54,8 @@
       "IMG20260210201140.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/229573/skulk-hollow",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958651",
     "condition": "Like new"
   },
   {
@@ -60,6 +68,8 @@
       "IMG20260210202751.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/43022/yomi",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958656",
     "condition": "Very good"
   },
   {
@@ -71,6 +81,7 @@
       "IMG20260210201359.jpg"
     ],
     "sold": true,
+    "bggUrl": "https://boardgamegeek.com/boardgame/244795/vast-mysterious-manor",
     "condition": "Like new"
   },
   {
@@ -83,6 +94,8 @@
       "IMG20260210202718.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/128882/resistance-avalon",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958660",
     "condition": "Very good"
   },
   {
@@ -94,6 +107,8 @@
       "IMG20260210201659.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/50/lost-cities",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958663",
     "condition": "Like new"
   },
   {
@@ -105,6 +120,8 @@
       "IMG20260210201752.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/118656/choson",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958668",
     "condition": "Like new"
   },
   {
@@ -116,6 +133,8 @@
       "IMG20260210201900.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/247367/air-land-sea",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958674",
     "condition": "Like new"
   },
   {
@@ -128,6 +147,8 @@
       "IMG20260210202823.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/71836/onirim",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958678",
     "condition": "Very good"
   },
   {
@@ -139,6 +160,8 @@
       "IMG20260210202145.jpg"
     ],
     "sold": false,
+    "bggUrl": "https://boardgamegeek.com/boardgame/281640/turncoats",
+    "geekmarketUrl": "https://boardgamegeek.com/market/product/3958680",
     "condition": "Like new"
   },
   {

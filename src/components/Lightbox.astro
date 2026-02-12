@@ -9,15 +9,17 @@ import ShippingInfo from './ShippingInfo.astro';
   <div class="lightbox__content">
     <img id="lightbox-image" src="" alt="" class="lightbox__image" />
     <div class="lightbox__info">
-      <h3 id="lightbox-title" class="lightbox__title"></h3>
+      <a id="lightbox-title-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__title-link">
+        <h3 id="lightbox-title" class="lightbox__title"></h3>
+      </a>
       <div id="lightbox-price" class="lightbox__price"></div>
       <div id="lightbox-condition" class="lightbox__condition"></div>
       <div class="lightbox__links">
-        <a id="lightbox-bgg-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
-          View on BGG Market
+        <a id="lightbox-geekmarket-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
+          View on Geekmarket
         </a>
-        <a id="lightbox-fb-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
-          View on Facebook
+        <a id="lightbox-facebook-link" href="#" target="_blank" rel="noopener noreferrer" class="lightbox__link">
+          View on Facebook Marketplace
         </a>
       </div>
       <div class="lightbox__shipping">
@@ -66,6 +68,16 @@ import ShippingInfo from './ShippingInfo.astro';
   .lightbox__info {
     text-align: center;
     color: white;
+  }
+
+  .lightbox__title-link {
+    text-decoration: none;
+    color: white;
+    transition: opacity 0.2s;
+  }
+
+  .lightbox__title-link:hover {
+    opacity: 0.8;
   }
 
   .lightbox__title {
@@ -215,17 +227,23 @@ import ShippingInfo from './ShippingInfo.astro';
   let currentPriceCZK = 0;
   let currentCondition = '';
   let currentGameId = '';
+  let currentBggUrl = '';
+  let currentGeekmarketUrl = '';
+  let currentFacebookUrl = '';
 
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
   const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxTitleLink = document.getElementById('lightbox-title-link') as HTMLAnchorElement;
   const lightboxPrice = document.getElementById('lightbox-price');
   const lightboxCondition = document.getElementById('lightbox-condition');
+  const lightboxGeekmarketLink = document.getElementById('lightbox-geekmarket-link') as HTMLAnchorElement;
+  const lightboxFacebookLink = document.getElementById('lightbox-facebook-link') as HTMLAnchorElement;
   const closeBtn = document.querySelector('.lightbox__close');
   const prevBtn = document.querySelector('.lightbox__nav--prev') as HTMLButtonElement;
   const nextBtn = document.querySelector('.lightbox__nav--next') as HTMLButtonElement;
 
-  function openLightbox(images: string[], index: number, title: string, priceEUR?: number, priceCZK?: number, condition?: string, gameId?: string) {
+  function openLightbox(images: string[], index: number, title: string, priceEUR?: number, priceCZK?: number, condition?: string, gameId?: string, bggUrl?: string, geekmarketUrl?: string, facebookUrl?: string) {
     currentImages = images;
     currentIndex = index;
     currentTitle = title;
@@ -233,6 +251,9 @@ import ShippingInfo from './ShippingInfo.astro';
     currentPriceCZK = priceCZK || 0;
     currentCondition = condition || '';
     currentGameId = gameId || '';
+    currentBggUrl = bggUrl || '';
+    currentGeekmarketUrl = geekmarketUrl || '';
+    currentFacebookUrl = facebookUrl || '';
     updateLightbox();
     lightbox?.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -262,6 +283,19 @@ import ShippingInfo from './ShippingInfo.astro';
     if (lightboxTitle) {
       lightboxTitle.textContent = currentTitle;
     }
+
+    // Update title link to BGG
+    if (lightboxTitleLink) {
+      if (currentBggUrl) {
+        lightboxTitleLink.href = currentBggUrl;
+        lightboxTitleLink.style.pointerEvents = 'auto';
+        lightboxTitleLink.style.cursor = 'pointer';
+      } else {
+        lightboxTitleLink.style.pointerEvents = 'none';
+        lightboxTitleLink.style.cursor = 'default';
+      }
+    }
+
     if (lightboxPrice) {
       if (currentPriceEUR > 0) {
         lightboxPrice.textContent = `€${currentPriceEUR} / ${currentPriceCZK} Kč`;
@@ -271,6 +305,26 @@ import ShippingInfo from './ShippingInfo.astro';
     }
     if (lightboxCondition && currentCondition) {
       lightboxCondition.textContent = `Condition: ${currentCondition}`;
+    }
+
+    // Update Geekmarket link
+    if (lightboxGeekmarketLink) {
+      if (currentGeekmarketUrl) {
+        lightboxGeekmarketLink.href = currentGeekmarketUrl;
+        lightboxGeekmarketLink.style.display = 'inline-block';
+      } else {
+        lightboxGeekmarketLink.style.display = 'none';
+      }
+    }
+
+    // Update Facebook link
+    if (lightboxFacebookLink) {
+      if (currentFacebookUrl) {
+        lightboxFacebookLink.href = currentFacebookUrl;
+        lightboxFacebookLink.style.display = 'inline-block';
+      } else {
+        lightboxFacebookLink.style.display = 'none';
+      }
     }
 
     // Update nav buttons
@@ -346,22 +400,28 @@ import ShippingInfo from './ShippingInfo.astro';
         const priceText = priceBadge.textContent || '';
         const eurMatch = priceText.match(/€(\d+)/);
         const czkMatch = priceText.match(/(\d+)\s*Kč/);
-        const conditionMatch = priceText.match(/(Like new|Very good|Good)/i);
+        const conditionMatch = priceText.match(/(Like new|Very good|Good|Acceptable)/i);
 
         if (eurMatch) priceEUR = parseInt(eurMatch[1]);
         if (czkMatch) priceCZK = parseInt(czkMatch[1]);
         if (conditionMatch) condition = conditionMatch[1];
       }
 
+      // Get BGG, GeekMarket, and Facebook URLs from data attributes
+      const carousel = card.querySelector('.image-carousel') as HTMLElement;
+      const bggUrl = carousel?.dataset.bggUrl || '';
+      const geekmarketUrl = carousel?.dataset.geekmarketUrl || '';
+      const facebookUrl = carousel?.dataset.facebookUrl || '';
+
       // Generate game ID from title (same format as in games.json)
       const gameId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
       // Store game data
-      gamesData.set(gameId, { images, title, priceEUR, priceCZK, condition });
+      gamesData.set(gameId, { images, title, priceEUR, priceCZK, condition, bggUrl, geekmarketUrl, facebookUrl });
 
       cardElement.style.cursor = 'pointer';
       cardElement.addEventListener('click', () => {
-        openLightbox(images, 0, title, priceEUR, priceCZK, condition, gameId);
+        openLightbox(images, 0, title, priceEUR, priceCZK, condition, gameId, bggUrl, geekmarketUrl, facebookUrl);
       });
     });
 
@@ -370,7 +430,7 @@ import ShippingInfo from './ShippingInfo.astro';
       const hash = window.location.hash.slice(1); // Remove the '#'
       if (hash && gamesData.has(hash)) {
         const game = gamesData.get(hash);
-        openLightbox(game.images, 0, game.title, game.priceEUR, game.priceCZK, game.condition, hash);
+        openLightbox(game.images, 0, game.title, game.priceEUR, game.priceCZK, game.condition, hash, game.bggUrl, game.geekmarketUrl, game.facebookUrl);
       }
     };
 
