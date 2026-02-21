@@ -258,6 +258,13 @@ import ShippingInfo from './ShippingInfo.astro';
     lightbox?.classList.add('active');
     document.body.style.overflow = 'hidden';
 
+    // Track game view in GA4
+    if (typeof gtag === 'function') {
+      gtag('event', 'view_game', {
+        game_name: title,
+      });
+    }
+
     // Update URL hash
     if (currentGameId) {
       window.history.pushState(null, '', `#${currentGameId}`);
@@ -372,6 +379,20 @@ import ShippingInfo from './ShippingInfo.astro';
     if (e.key === 'ArrowLeft') showPrev();
     if (e.key === 'ArrowRight') showNext();
   });
+
+  // Track outbound link clicks in GA4
+  function trackOutboundClick(linkType: string) {
+    if (typeof gtag === 'function') {
+      gtag('event', 'outbound_click', {
+        game_name: currentTitle,
+        link_type: linkType,
+      });
+    }
+  }
+
+  lightboxTitleLink?.addEventListener('click', () => trackOutboundClick('bgg'));
+  lightboxGeekmarketLink?.addEventListener('click', () => trackOutboundClick('geekmarket'));
+  lightboxFacebookLink?.addEventListener('click', () => trackOutboundClick('facebook'));
 
   // Make openLightbox available globally
   (window as any).openLightbox = openLightbox;
