@@ -83,6 +83,9 @@ const gamePositions = gameWidths.map((width, index) => {
           data-game-price-eur={game.priceEUR}
           data-game-price-czk={game.priceCZK}
           data-game-condition={game.condition}
+          data-bgg-url={game.bggUrl || ''}
+          data-geekmarket-url={game.geekmarketUrl || ''}
+          data-facebook-url={game.facebookUrl || ''}
           data-sold={game.sold || false}
           aria-label={game.sold ? `${game.name} (Sold)` : `View ${game.name}`}
         >
@@ -248,16 +251,20 @@ const gamePositions = gameWidths.map((width, index) => {
           return;
         }
 
+        const gameId = hotspot.getAttribute('data-game-id') || '';
         const gameName = hotspot.getAttribute('data-game-name') || '';
         const imagesStr = hotspot.getAttribute('data-game-images') || '[]';
         const images = JSON.parse(imagesStr);
         const priceEUR = parseInt(hotspot.getAttribute('data-game-price-eur') || '0');
         const priceCZK = parseInt(hotspot.getAttribute('data-game-price-czk') || '0');
         const condition = hotspot.getAttribute('data-game-condition') || '';
+        const bggUrl = hotspot.getAttribute('data-bgg-url') || '';
+        const geekmarketUrl = hotspot.getAttribute('data-geekmarket-url') || '';
+        const facebookUrl = hotspot.getAttribute('data-facebook-url') || '';
 
         // Use the global openLightbox function
         if (typeof (window as any).openLightbox === 'function') {
-          (window as any).openLightbox(images, 0, gameName, priceEUR, priceCZK, condition);
+          (window as any).openLightbox(images, 0, gameName, priceEUR, priceCZK, condition, gameId, bggUrl, geekmarketUrl, facebookUrl);
         }
       });
     });
