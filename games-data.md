@@ -106,6 +106,7 @@ IMG20260210202823.jpg
 
 Turncoats
 BGG: https://boardgamegeek.com/boardgame/281640/turncoats
+SOLD
 GM: https://boardgamegeek.com/market/product/3958680
 FB: https://www.facebook.com/marketplace/item/2493055697764082/
 50 EUR
