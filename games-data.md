@@ -72,6 +72,7 @@ IMG20260210201604.jpg
 IMG20260210202718.jpg
 
 Lost cities
+SOLD
 BGG: https://boardgamegeek.com/boardgame/50/lost-cities
 GM: https://boardgamegeek.com/market/product/3958663
 FB: https://www.facebook.com/marketplace/item/1427102691773981/
@@ -88,6 +89,7 @@ FB: https://www.facebook.com/marketplace/item/933045886045366/
 IMG20260210201752.jpg
 
 Air Land & sea
+SOLD
 BGG: https://boardgamegeek.com/boardgame/247367/air-land-sea
 GM: https://boardgamegeek.com/market/product/3958674
 FB: https://www.facebook.com/marketplace/item/859411787138985/
